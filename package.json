@@ -1,0 +1,22 @@
+{
+  "name": "@modern-pos/shared",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Shared pure money math consumed by the backend and frontend POS apps.",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3"
+  }
+}
