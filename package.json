@@ -1,7 +1,6 @@
 {
-  "name": "@modern-pos/shared",
+  "name": "@marlonhario/modern-pos-shared",
   "version": "1.0.0",
-  "private": true,
   "type": "module",
   "description": "Shared pure money math consumed by the backend and frontend POS apps.",
   "exports": {
@@ -12,9 +11,17 @@
     }
   },
   "files": ["dist"],
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marlonhario/modern-pos-shared.git"
+  },
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
   },
   "devDependencies": {
     "typescript": "^5.6.3"
