@@ -18,3 +18,10 @@ export {
   type SaleCreditInfo,
   type ArRoundingMode,
 } from "./ar-credit.js";
+export {
+  PRICE_MAX,
+  discountTypeSchema,
+  discountAmountSchema,
+  saleDiscountSchema,
+  taxAmountSchema,
+} from "./sale-validation.js";
