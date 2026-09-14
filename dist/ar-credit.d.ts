@@ -13,6 +13,11 @@ export interface SaleCreditInfo {
     baseTotalAmount: DecimalLike;
     fxRate: DecimalLike;
     payments: SalePaymentInfo[];
+    /**
+     * Sale status — `"LAYAWAY"` routes the credit portion to the full total
+     * (D-09); absent/null falls through to the default reconstruction.
+     */
+    status?: string | null;
 }
 export declare function saleCreditPortionBase(sale: SaleCreditInfo, roundingMode?: ArRoundingMode): number;
 /**

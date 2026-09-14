@@ -13,6 +13,12 @@
  * single header method or as a `SalePayment` row with `method ===
  * "ON_ACCOUNT"`. Non-ON_ACCOUNT split rows still reduce the credit portion.
  *
+ * LAYAWAY (D-09) is a deposit-based sale: the value on layaway is the full
+ * total, and deposits are AR `Payment` rows (collections), never at-creation
+ * `SalePayment` tender. The credit portion is therefore the FULL total — the
+ * outstanding balance = total − deposits lives on the layaway, separate from
+ * the customer's on-account credit balance.
+ *
  * Amounts are in the business base currency.
  *
  * These are pure functions: callers resolve Prisma Decimal columns to
@@ -22,11 +28,20 @@
  */
 import { roundMoney } from "./money.js";
 const ACCOUNT_METHOD = "ON_ACCOUNT";
+const LAYAWAY_STATUS = "LAYAWAY";
 export function saleCreditPortionBase(sale, roundingMode = "HALF_UP") {
     const total = sale.baseTotalAmount.toNumber();
     const rate = sale.fxRate.toNumber();
     const onAccount = sale.paymentMethod === ACCOUNT_METHOD ||
         sale.payments.some((p) => p.method === ACCOUNT_METHOD);
+    // LAYAWAY (D-09): the credit portion is the full total — a layaway's
+    // outstanding balance = total − deposits, carried on the layaway surface
+    // (never merged into the customer's on-account credit). Full-payment
+    // creates complete the sale (DAT-020), and the completed row re-computes
+    // through the default path below with the same result (outstanding = 0).
+    if (sale.status === LAYAWAY_STATUS) {
+        return total;
+    }
     const paidAtCreationBase = roundMoney(sale.payments
         // ON_ACCOUNT rows are credit, not collected tender.
         .filter((p) => p.method !== ACCOUNT_METHOD)
