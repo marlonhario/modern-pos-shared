@@ -12,6 +12,11 @@ export {
   type SaleTotalsResult,
 } from "./sale-totals.js";
 export {
+  computeBundleMargin,
+  type BundleFigureSet,
+  type BundleMarginInput,
+} from "./bundle-margin.js";
+export {
   saleCreditPortionBase,
   saleOutstandingBase,
   type DecimalLike,

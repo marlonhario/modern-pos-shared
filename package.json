@@ -1,6 +1,6 @@
 {
   "name": "@marlonhario/modern-pos-shared",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "type": "module",
   "description": "Shared pure money math consumed by the backend and frontend POS apps.",
   "exports": {
